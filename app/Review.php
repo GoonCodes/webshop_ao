@@ -30,4 +30,32 @@ class Review extends Model
 	  {
 	    return $query->where('spam', false);
 	  }
+
+
+	// this function takes in product ID, comment and the rating and attaches the review to the product by its ID, then the average rating for the product is recalculated
+  public function storeReviewForProduct($productID, $comment, $rating)
+	{
+	  $product = Product::find($productID);
+
+	  // this will be added when we add user's login functionality
+	  //$this->user_id = Auth::user()->id;
+
+	  $this->comment = $comment;
+	  $this->rating = $rating;
+	  $product->reviews()->save($this);
+
+	  // recalculate ratings for the specified product
+	  $product->recalculateRating();
+    }
+
+
+
+
+
+
+
+
 }
+
+
+
